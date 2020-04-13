@@ -1,7 +1,10 @@
 import eventTmp from './event';
 import eventEditTmp from './event-edit';
 
-const tripDays = `<ul class="trip-days">
+import {EVENT_TYPE_LIST as eventList} from '../const';
+
+
+const tripDaysTmp = `<ul class="trip-days">
   <li class="trip-days__item  day">
     <div class="day__info">
       <span class="day__counter">1</span>
@@ -10,19 +13,20 @@ const tripDays = `<ul class="trip-days">
 
     <ul class="trip-events__list">
       <li class="trip-events__item">
-        ${eventEditTmp}
+        ${eventEditTmp(eventList, `check-in`)}
       </li>
       <li class="trip-events__item">
-        ${eventTmp}
+        ${eventTmp()}
       </li>
       <li class="trip-events__item">
-        ${eventTmp}
+        ${eventTmp()}
       </li>
       <li class="trip-events__item">
-        ${eventTmp}
+        ${eventTmp()}
       </li>
     </ul>
   </li>
 </ul>`;
 
-export default tripDays;
+
+export default tripDaysTmp;
