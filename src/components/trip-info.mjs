@@ -1,11 +1,14 @@
-const tripInfoMainTmp = (route, date) => `<div class="trip-info__main">
+import Component from './component';
+
+
+const mainTmp = (route, date) => `<div class="trip-info__main">
   <h1 class="trip-info__title">${route}</h1>
   <p class="trip-info__dates">${date}</p>
 </div>`;
 
 
-const tripInfoTmp = (total, route, date) => `<section class="trip-main__trip-info  trip-info">
-  ${route ? tripInfoMainTmp(route, date) : ``}
+const tmp = (total, route, date) => `<section class="trip-main__trip-info  trip-info">
+  ${route ? mainTmp(route, date) : ``}
 
   <p class="trip-info__cost">
     Total: &euro;&nbsp;<span class="trip-info__cost-value">
@@ -15,4 +18,16 @@ const tripInfoTmp = (total, route, date) => `<section class="trip-main__trip-inf
 </section>`;
 
 
-export default tripInfoTmp;
+export default class TripInfoComp extends Component {
+  constructor(info) {
+    super();
+
+    this._total = info.total;
+    this._route = info.route;
+    this._date = info.date;
+  }
+
+  getTemplate() {
+    return tmp(this._total, this._route, this._date);
+  }
+}

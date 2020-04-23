@@ -1,4 +1,4 @@
-import {capitalize} from '../utils';
+import {capitalize} from '../utils/utils';
 import {FILTER_LIST as filterList} from '../const';
 
 

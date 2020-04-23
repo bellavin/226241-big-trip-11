@@ -1,4 +1,4 @@
-import {capitalize} from '../utils';
+import {capitalize} from '../utils/utils';
 import {SORT_LIST as sortList} from '../const';
 
 

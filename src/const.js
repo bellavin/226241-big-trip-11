@@ -184,6 +184,12 @@ export const OFFER = {
   ]
 };
 
+export const INFO_DATA = {
+  total: 1230,
+  route: `Amsterdam &mdash; Chamonix &mdash; Geneva`,
+  date: `Mar 18&nbsp;&mdash;&nbsp;20`
+};
+
 export const SORT_LIST = [`event`, `time`, `price`];
 export const FILTER_LIST = [`everything`, `future`, `past`];
 export const TAB_LIST = [`table`, `stats`];

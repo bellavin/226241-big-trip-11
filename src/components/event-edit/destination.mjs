@@ -1,20 +1,20 @@
-const destinationTmp = () => {
+const destinationTmp = (destination) => {
+  const desc = destination.description;
+  const pictures = destination.pictures;
 
-  if (!Array.isArray([]) || [].length === 0) {
+  const hasDesc = typeof desc === `string` && desc !== ``;
+  const hasPictures = Array.isArray(pictures) || pictures.length === 0;
+  if (!hasDesc && !hasPictures) {
     return ``;
   }
 
   return `<section class="event__section  event__section--destination">
     <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-    <p class="event__destination-description">Geneva is a city in Switzerland that lies at the southern tip of expansive Lac LÃ©man (Lake Geneva). Surrounded by the Alps and Jura mountains, the city has views of dramatic Mont Blanc.</p>
+    <p class="event__destination-description">${desc}</p>
 
     <div class="event__photos-container">
       <div class="event__photos-tape">
-        <img class="event__photo" src="img/photos/1.jpg" alt="Event photo">
-        <img class="event__photo" src="img/photos/2.jpg" alt="Event photo">
-        <img class="event__photo" src="img/photos/3.jpg" alt="Event photo">
-        <img class="event__photo" src="img/photos/4.jpg" alt="Event photo">
-        <img class="event__photo" src="img/photos/5.jpg" alt="Event photo">
+        ${pictures.map((pic) => `<img class="event__photo" src="${pic.src}" alt="Event photo">`)}
       </div>
     </div>
   </section>`;

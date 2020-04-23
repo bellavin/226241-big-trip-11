@@ -2,14 +2,14 @@ import offersTmp from './offers.mjs';
 import destinationTmp from './destination.mjs';
 
 
-const detailsTmp = (eventType) => {
-  if (offersTmp(eventType) === `` && destinationTmp() === ``) {
+const detailsTmp = (event) => {
+  if (offersTmp(event.type) === `` && destinationTmp(event.destination) === ``) {
     return ``;
   }
 
   return `<section class="event__details">
-    ${offersTmp(eventType)}
-    ${destinationTmp()}
+    ${offersTmp(event.type)}
+    ${destinationTmp(event.destination)}
   </section>`;
 };
 
