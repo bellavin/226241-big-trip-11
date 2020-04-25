@@ -1,48 +1,71 @@
-import {formatDate} from '../utils/utils';
-import {sortType} from '../utils/utils';
+import {sortType, getRoute} from '../utils/utils';
+import {render} from '../utils/render';
+import {EVENT_TYPE_LIST as eventTypeList} from '../const';
+
+import points from '../mock/points';
+
+import NoPoints from '../components/no-points';
+import TripSortComp from '../components/trip-sort';
+import TripDaysComp from '../components/trip-days';
+import DayComp from '../components/day';
+import EventComp from '../components/event';
+import EventEditComp from '../components/event-edit';
 
 
-export default class TripController {
-  constructor(points) {
-    this._points = points;
-    this._sortType = sortType;
-  }
+export const renderTripDays = () => {
+  const tripEventsElem = document.querySelector(`.trip-events`);
 
+  const tripDaysComp = new TripDaysComp();
+  const tripDaysElem = tripDaysComp.getElement();
+  render(tripEventsElem, tripDaysElem);
 
-  _sortPoints() {
-    return [...this._points].sort(this._sortType.BY_DATE);
-  }
+  const tripRoute = getRoute(points, sortType.BY_DATE);
 
+  tripRoute.forEach((day, idx) => {
+    const dayComp = new DayComp(day.day, idx + 1);
+    const dayElem = dayComp.getElement();
+    render(tripDaysElem, dayElem);
 
-  _getDays(points) {
-    const days = new Set();
-    points.forEach((it) => {
-      days.add(formatDate(it.dateFrom));
-    });
-    return days;
-  }
+    day.points.forEach((point) => {
+      const eventList = dayElem.querySelector(`.trip-events__list`);
+      const eventComp = new EventComp(point);
+      const eventElem = eventComp.getElement();
+      render(eventList, eventElem);
 
+      const eventEditComp = new EventEditComp(eventTypeList, point);
+      const eventEditElem = eventEditComp.getElement();
 
-  getTrip() {
-    const points = this._sortPoints();
-    const days = this._getDays(points);
-    const tripDays = [];
+      const replaceEventToEdit = () => {
+        eventList.replaceChild(eventEditElem, eventElem);
+      };
 
-    days.forEach((day) => {
-      return tripDays.push({
-        day,
-        points: []
-      });
-    });
+      const replaceEditToEvent = () => {
+        eventList.replaceChild(eventElem, eventEditElem);
+      };
 
-    tripDays.forEach((tripDay) => {
-      points.forEach((point) => {
-        if (tripDay.day === formatDate(point.dateFrom)) {
-          tripDay.points.push(point);
+      const onEscKeyDown = (evt) => {
+        const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
+        if (isEscKey) {
+          replaceEditToEvent();
+          document.removeEventListener(`keydown`, onEscKeyDown);
         }
+      };
+
+      eventComp.setClickHandler(() => {
+        replaceEventToEdit();
+        document.addEventListener(`keydown`, onEscKeyDown);
+      });
+
+      eventEditComp.setClickHandler(() => {
+        replaceEditToEvent();
+        document.removeEventListener(`keydown`, onEscKeyDown);
+      });
+
+      eventEditComp.setSubmitHandler((evt) => {
+        evt.preventDefault();
+        replaceEditToEvent();
+        document.removeEventListener(`keydown`, onEscKeyDown);
       });
     });
-
-    return tripDays;
-  }
-}
+  });
+};

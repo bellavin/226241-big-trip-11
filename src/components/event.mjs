@@ -1,6 +1,6 @@
+import AbstractComponent from './abstract-component';
 import {capitalize, formatDate, formatTime} from '../utils/utils';
 import {POSTPOSITION as postposition} from '../const';
-import Component from './component';
 
 
 const tmp = (event) => `<li class="trip-events__item">
@@ -49,7 +49,7 @@ const tmp = (event) => `<li class="trip-events__item">
 </li>`;
 
 
-export default class EventComp extends Component {
+export default class EventComp extends AbstractComponent {
   constructor(eventList, event) {
     super();
 
@@ -59,5 +59,9 @@ export default class EventComp extends Component {
 
   getTemplate() {
     return tmp(this._eventList, this._event);
+  }
+
+  setClickHandler(cb) {
+    this.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, cb);
   }
 }

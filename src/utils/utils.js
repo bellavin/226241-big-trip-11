@@ -63,3 +63,30 @@ export const sortType = {
     return date1 - date2;
   }
 };
+
+export const getRoute = (points, sortingMethod) => {
+  const sortedPoints = [...points].sort(sortingMethod);
+
+  const days = new Set();
+  sortedPoints.forEach((it) => {
+    days.add(formatDate(it.dateFrom));
+  });
+
+  const tripDays = [];
+  days.forEach((day) => {
+    return tripDays.push({
+      day,
+      points: []
+    });
+  });
+
+  tripDays.forEach((day) => {
+    points.forEach((point) => {
+      if (day.day === formatDate(point.dateFrom)) {
+        day.points.push(point);
+      }
+    });
+  });
+
+  return tripDays;
+};

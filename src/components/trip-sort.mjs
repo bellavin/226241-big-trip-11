@@ -1,11 +1,13 @@
+import AbstractComponent from './abstract-component';
 import {capitalize} from '../utils/utils';
-import {SORT_LIST as sortList} from '../const';
 
 
-const tripSortTmp = (activeItem) => `<form class="trip-events__trip-sort  trip-sort" action="#" method="get">
+const SORT_LIST = [`event`, `time`, `price`];
+
+const tmp = (activeItem) => `<form class="trip-events__trip-sort  trip-sort" action="#" method="get">
   <span class="trip-sort__item  trip-sort__item--day"></span>
 
-  ${sortList.map((item) => `<div class="trip-sort__item  trip-sort__item--${item}">
+  ${SORT_LIST.map((item) => `<div class="trip-sort__item  trip-sort__item--${item}">
     <input
       id="sort-${item}"
       class="trip-sort__input  visually-hidden"
@@ -27,4 +29,14 @@ const tripSortTmp = (activeItem) => `<form class="trip-events__trip-sort  trip-s
 </form>`;
 
 
-export default tripSortTmp;
+export default class TripSortComp extends AbstractComponent {
+  constructor(activeItem) {
+    super();
+
+    this._activeItem = activeItem;
+  }
+
+  getTemplate() {
+    return tmp(this._activeItem);
+  }
+}

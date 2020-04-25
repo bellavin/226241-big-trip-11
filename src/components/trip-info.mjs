@@ -1,11 +1,10 @@
-import Component from './component';
+import AbstractComponent from './abstract-component';
 
 
 const mainTmp = (route, date) => `<div class="trip-info__main">
   <h1 class="trip-info__title">${route}</h1>
   <p class="trip-info__dates">${date}</p>
 </div>`;
-
 
 const tmp = (total, route, date) => `<section class="trip-main__trip-info  trip-info">
   ${route ? mainTmp(route, date) : ``}
@@ -18,7 +17,7 @@ const tmp = (total, route, date) => `<section class="trip-main__trip-info  trip-
 </section>`;
 
 
-export default class TripInfoComp extends Component {
+export default class TripInfoComp extends AbstractComponent {
   constructor(info) {
     super();
 

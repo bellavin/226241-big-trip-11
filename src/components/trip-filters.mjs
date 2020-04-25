@@ -1,10 +1,12 @@
+import AbstractComponent from './abstract-component';
 import {capitalize} from '../utils/utils';
-import {FILTER_LIST as filterList} from '../const';
 
 
-const tripFiltersTmp = (activeItem) => `<form class="trip-filters" action="#" method="get">
+const FILTER_LIST = [`everything`, `future`, `past`];
 
-  ${filterList.map((item) => `<div class="trip-filters__filter">
+const tmp = (activeItem) => `<form class="trip-filters" action="#" method="get">
+
+  ${FILTER_LIST.map((item) => `<div class="trip-filters__filter">
     <input
       id="filter-${item}"
       class="trip-filters__filter-input  visually-hidden"
@@ -21,4 +23,14 @@ const tripFiltersTmp = (activeItem) => `<form class="trip-filters" action="#" me
 </form>`;
 
 
-export default tripFiltersTmp;
+export default class TripFiltersComp extends AbstractComponent {
+  constructor(activeItem) {
+    super();
+
+    this._activeItem = activeItem;
+  }
+
+  getTemplate() {
+    return tmp(this._activeItem);
+  }
+}

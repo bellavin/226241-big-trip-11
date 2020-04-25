@@ -1,4 +1,4 @@
-import Component from './component';
+import AbstractComponent from './abstract-component';
 import {formatDate, formatDate3} from '../utils/utils';
 
 
@@ -13,7 +13,7 @@ const tmp = (date, dateNum) => `<li class="trip-days__item  day">
 </li>`;
 
 
-export default class DayComp extends Component {
+export default class DayComp extends AbstractComponent {
   constructor(date, dateNum) {
     super();
 

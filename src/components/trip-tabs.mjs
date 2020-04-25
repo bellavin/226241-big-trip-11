@@ -1,11 +1,11 @@
+import AbstractComponent from './abstract-component';
 import {capitalize} from '../utils/utils';
-import {TAB_LIST as tabList} from '../const';
 
-import Component from './component';
 
+const TAB_LIST = [`table`, `stats`];
 
 const tmp = (activeItem) => `<nav class="trip-controls__trip-tabs  trip-tabs">
-  ${tabList.map((item) => `<a
+  ${TAB_LIST.map((item) => `<a
     class="trip-tabs__btn  ${item === activeItem ? `trip-tabs__btn--active` : ``}"
     href="#"
   >
@@ -15,7 +15,7 @@ const tmp = (activeItem) => `<nav class="trip-controls__trip-tabs  trip-tabs">
 </nav>`;
 
 
-export default class TripTabsComp extends Component {
+export default class TripTabsComp extends AbstractComponent {
   constructor(activeItem) {
     super();
 

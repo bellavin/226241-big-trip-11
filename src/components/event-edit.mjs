@@ -1,7 +1,6 @@
+import AbstractComponent from './abstract-component';
 import headerTmp from './event-edit/header.mjs';
 import detailsTmp from './event-edit/details.mjs';
-
-import Component from './component';
 
 
 const tmp = (eventList, event) => `<li class="trip-events__item">
@@ -12,7 +11,7 @@ const tmp = (eventList, event) => `<li class="trip-events__item">
 </li>`;
 
 
-export default class EventEditComp extends Component {
+export default class EventEditComp extends AbstractComponent {
   constructor(eventList, event) {
     super();
 
@@ -22,5 +21,13 @@ export default class EventEditComp extends Component {
 
   getTemplate() {
     return tmp(this._eventList, this._event);
+  }
+
+  setClickHandler(cb) {
+    this.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, cb);
+  }
+
+  setSubmitHandler(cb) {
+    this.getElement().querySelector(`form`).addEventListener(`submit`, cb);
   }
 }
