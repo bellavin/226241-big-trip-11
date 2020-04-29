@@ -1,18 +1,18 @@
-export const render = (container, element, place = `beforeEnd`) => {
+export const render = (container, comp, place = `beforeEnd`) => {
   switch (place) {
     case `afterBegin`:
-      container.prepend(element);
+      container.prepend(comp.getElem());
       break;
     case `beforeEnd`:
-      container.append(element);
+      container.append(comp.getElem());
       break;
   }
 };
 
 export const replace = (newComp, oldComp) => {
-  const parentElem = oldComp.getElement().parentElem;
-  const newElem = newComp.getElement();
-  const oldElem = oldComp.getElement();
+  const parentElem = oldComp.getElem().parentElem;
+  const newElem = newComp.getElem();
+  const oldElem = oldComp.getElem();
 
   const isExistElems = !!(parentElem && newElem && oldElem);
 
@@ -22,6 +22,6 @@ export const replace = (newComp, oldComp) => {
 };
 
 export const remove = (component) => {
-  component.getElement().remove();
-  component.removeElement();
+  component.getElem().remove();
+  component.removeElem();
 };

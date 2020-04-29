@@ -21,7 +21,7 @@ export default class DayComp extends AbstractComponent {
     this._dateNum = dateNum;
   }
 
-  getTemplate() {
+  getTmp() {
     return tmp(this._date, this._dateNum);
   }
 }

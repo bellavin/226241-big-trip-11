@@ -14,19 +14,19 @@ export default class AbstractComponent {
     return newElement.firstChild;
   }
 
-  getTemplate() {
-    throw new Error(`Abstract method not implemented: getTemplate`);
+  getTmp() {
+    throw new Error(`Abstract method not implemented: getTmp`);
   }
 
-  getElement() {
+  getElem() {
     if (!this._element) {
-      this._element = this._createElement(this.getTemplate());
+      this._element = this._createElement(this.getTmp());
     }
 
     return this._element;
   }
 
-  removeElement() {
+  removeElem() {
     this._element = null;
   }
 }

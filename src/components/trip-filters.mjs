@@ -30,7 +30,7 @@ export default class TripFiltersComp extends AbstractComponent {
     this._activeItem = activeItem;
   }
 
-  getTemplate() {
+  getTmp() {
     return tmp(this._activeItem);
   }
 }

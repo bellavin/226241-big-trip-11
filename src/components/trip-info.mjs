@@ -26,7 +26,7 @@ export default class TripInfoComp extends AbstractComponent {
     this._date = info.date;
   }
 
-  getTemplate() {
+  getTmp() {
     return tmp(this._total, this._route, this._date);
   }
 }

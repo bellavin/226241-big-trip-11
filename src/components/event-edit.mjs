@@ -19,15 +19,15 @@ export default class EventEditComp extends AbstractComponent {
     this._event = event;
   }
 
-  getTemplate() {
+  getTmp() {
     return tmp(this._eventList, this._event);
   }
 
   setClickHandler(cb) {
-    this.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, cb);
+    this.getElem().querySelector(`.event__rollup-btn`).addEventListener(`click`, cb);
   }
 
   setSubmitHandler(cb) {
-    this.getElement().querySelector(`form`).addEventListener(`submit`, cb);
+    this.getElem().querySelector(`form`).addEventListener(`submit`, cb);
   }
 }

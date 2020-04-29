@@ -6,8 +6,8 @@ const tmp = () => `<p class="trip-events__msg">
 </p>`;
 
 
-export default class NoPoints extends AbstractComponent {
-  getTemplate() {
+export default class NoPointsComp extends AbstractComponent {
+  getTmp() {
     return tmp();
   }
 }

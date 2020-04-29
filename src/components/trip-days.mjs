@@ -9,7 +9,7 @@ export default class TripDaysComp extends AbstractComponent {
     super();
   }
 
-  getTemplate() {
+  getTmp() {
     return tmp();
   }
 }

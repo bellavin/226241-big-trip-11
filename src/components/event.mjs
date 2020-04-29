@@ -57,11 +57,11 @@ export default class EventComp extends AbstractComponent {
     this._event = event;
   }
 
-  getTemplate() {
+  getTmp() {
     return tmp(this._eventList, this._event);
   }
 
   setClickHandler(cb) {
-    this.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, cb);
+    this.getElem().querySelector(`.event__rollup-btn`).addEventListener(`click`, cb);
   }
 }
