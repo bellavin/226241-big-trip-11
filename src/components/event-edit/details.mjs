@@ -1,5 +1,5 @@
-import offersTmp from './offers.mjs';
-import destinationTmp from './destination.mjs';
+import offersTmp from './offers';
+import destinationTmp from './destination';
 
 
 const detailsTmp = (event) => {

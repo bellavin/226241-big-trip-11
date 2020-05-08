@@ -2,7 +2,7 @@ import {render} from './utils/render';
 import {INFO_DATA as infoData} from './const';
 import points from './mock/points';
 
-import TripController from './controllers/trip-controller';
+import TripController from './controllers/trip';
 import TripFiltersComp from './components/trip-filters';
 import TripTabsComp from './components/trip-tabs';
 import TripInfoComp from './components/trip-info';

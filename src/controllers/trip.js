@@ -1,13 +1,11 @@
 import {formatDate} from '../utils/utils';
 import {render} from '../utils/render';
-import {EVENT_TYPE_LIST as eventTypeList} from '../const';
 
+import EventController from "./event";
 import NoPointsComp from '../components/no-points';
 import TripSortComp from '../components/trip-sort';
 import TripDaysComp from '../components/trip-days';
 import DayComp from '../components/day';
-import EventComp from '../components/event';
-import EventEditComp from '../components/event-edit';
 
 
 const getSortedEvents = (events, sortType) => {
@@ -86,49 +84,7 @@ const getSortedEvents = (events, sortType) => {
 };
 
 
-const renderEvent = (eventListElem, event) => {
-  const eventComp = new EventComp(event);
-  const eventElem = eventComp.getElem();
-  render(eventListElem, eventComp);
-
-  const eventEditComp = new EventEditComp(eventTypeList, event);
-  const eventEditElem = eventEditComp.getElem();
-
-  const replaceEventToEdit = () => {
-    eventListElem.replaceChild(eventEditElem, eventElem);
-  };
-
-  const replaceEditToEvent = () => {
-    eventListElem.replaceChild(eventElem, eventEditElem);
-  };
-
-  const onEscKeyDown = (evt) => {
-    const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
-    if (isEscKey) {
-      replaceEditToEvent();
-      document.removeEventListener(`keydown`, onEscKeyDown);
-    }
-  };
-
-  eventComp.setClickHandler(() => {
-    replaceEventToEdit();
-    document.addEventListener(`keydown`, onEscKeyDown);
-  });
-
-  eventEditComp.setClickHandler(() => {
-    replaceEditToEvent();
-    document.removeEventListener(`keydown`, onEscKeyDown);
-  });
-
-  eventEditComp.setSubmitHandler((evt) => {
-    evt.preventDefault();
-    replaceEditToEvent();
-    document.removeEventListener(`keydown`, onEscKeyDown);
-  });
-};
-
-
-const renderTrip = (tripDaysElem, events) => {
+const renderEvents = (tripDaysElem, events, onDataChange, onViewChange) => {
   events.forEach((day, index) => {
     const dayComp = new DayComp(day.day, index + 1);
     const dayElem = dayComp.getElem();
@@ -136,8 +92,11 @@ const renderTrip = (tripDaysElem, events) => {
     render(tripDaysElem, dayComp);
 
     const eventListElem = dayElem.querySelector(`.trip-events__list`);
-    day.points.forEach((event) => {
-      renderEvent(eventListElem, event);
+    day.points.map((event) => {
+      const eventController = new EventController(eventListElem, onDataChange, onViewChange);
+      eventController.render(event);
+
+      return eventController;
     });
   });
 };
@@ -151,9 +110,17 @@ export default class TripController {
     this._tripSortComp = new TripSortComp(`event`);
     this._tripDaysComp = new TripDaysComp();
     this._dayComp = new DayComp();
+
+    this._showedEventControllers = [];
+
+    this._onDataChange = this._onDataChange.bind(this);
+    // this._onSortTypeChange = this._onSortTypeChange.bind(this);
+    this._onViewChange = this._onViewChange.bind(this);
   }
 
   render(events) {
+    this._events = events;
+
     const container = this._container;
 
     const noPointsComp = this._noPointsComp;
@@ -171,14 +138,32 @@ export default class TripController {
 
     const tripDaysElem = this._tripDaysComp.getElem();
     const sortedEvents = getSortedEvents(events, this._tripSortComp.getSortType());
-    renderTrip(tripDaysElem, sortedEvents);
+    const newEvents = renderEvents(tripDaysElem, sortedEvents, this._onDataChange, this._onViewChange);
+    this._showedEventControllers = this._showedEventControllers.concat(newEvents);
 
     this._tripSortComp.setSortTypeChangeHandler((sortType) => {
       const sortedPoints = getSortedEvents(events, sortType);
 
       tripDaysElem.innerHTML = ``;
 
-      renderTrip(tripDaysElem, sortedPoints);
+      renderEvents(tripDaysElem, sortedPoints, this._onDataChange, this._onViewChange);
     });
+  }
+
+  _onDataChange(eventController, oldData, newData) {
+    const index = this._events.findIndex((it) => it === oldData);
+
+    if (index === -1) {
+      return;
+    }
+
+    this._events = [].concat(this._events.slice(0, index), newData, this._events.slice(index + 1));
+
+    eventController.render(this._events[index]);
+  }
+
+  _onViewChange() {
+    console.log(this._showedEventControllers);
+    this._showedEventControllers.forEach((it) => it.setDefaultView());
   }
 }

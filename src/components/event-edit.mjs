@@ -1,6 +1,7 @@
 import AbstractComponent from './abstract-component';
-import headerTmp from './event-edit/header.mjs';
-import detailsTmp from './event-edit/details.mjs';
+import headerTmp from './event-edit/header';
+import detailsTmp from './event-edit/details';
+import {EVENT_TYPE_LIST as eventTypeList} from '../const';
 
 
 const tmp = (eventList, event) => `<li class="trip-events__item">
@@ -12,10 +13,10 @@ const tmp = (eventList, event) => `<li class="trip-events__item">
 
 
 export default class EventEditComp extends AbstractComponent {
-  constructor(eventList, event) {
+  constructor(event) {
     super();
 
-    this._eventList = eventList;
+    this._eventList = eventTypeList;
     this._event = event;
   }
 
@@ -29,5 +30,9 @@ export default class EventEditComp extends AbstractComponent {
 
   setSubmitHandler(cb) {
     this.getElem().querySelector(`form`).addEventListener(`submit`, cb);
+  }
+
+  setFavoritesButtonClickHandler(cb) {
+    this.getElem().querySelector(`.event__favorite-checkbox`).addEventListener(`click`, cb);
   }
 }

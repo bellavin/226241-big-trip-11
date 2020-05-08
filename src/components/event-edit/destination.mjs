@@ -14,7 +14,7 @@ const destinationTmp = (destination) => {
 
     <div class="event__photos-container">
       <div class="event__photos-tape">
-        ${pictures.map((pic) => `<img class="event__photo" src="${pic.src}" alt="Event photo">`)}
+        ${pictures.map((pic) => `<img class="event__photo" src="${pic.src}" alt="Event photo">`).join(`\n`)}
       </div>
     </div>
   </section>`;
