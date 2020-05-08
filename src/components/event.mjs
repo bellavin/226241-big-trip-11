@@ -3,6 +3,20 @@ import {capitalize, formatDate, formatTime} from '../utils/utils';
 import {POSTPOSITION as postposition} from '../const';
 
 
+const eventDuration = (event) => {
+  const milliseconds = new Date(event.dateTo) - new Date(event.dateFrom);
+
+  let dd = Math.floor(new Date(milliseconds).getUTCHours() / 24);
+  let hh = new Date(milliseconds).getUTCHours();
+  let mm = new Date(milliseconds).getUTCMinutes();
+
+  dd = dd ? `${dd}D` : ``;
+  hh = hh ? `${hh}H` : ``;
+  mm = mm ? `${mm}M` : `00`;
+
+  return dd + hh + mm;
+};
+
 const tmp = (event) => `<li class="trip-events__item">
   <div class="event">
     <div class="event__type">
@@ -26,7 +40,9 @@ const tmp = (event) => `<li class="trip-events__item">
         ${formatTime(event.dateTo)}
         </time>
       </p>
-      <p class="event__duration">30M</p>
+      <p class="event__duration">
+        ${eventDuration(event)}
+      </p>
     </div>
 
     <p class="event__price">

@@ -2,9 +2,9 @@ import AbstractComponent from './abstract-component';
 import {formatDate, formatDate3} from '../utils/utils';
 
 
-const tmp = (date, dateNum) => `<li class="trip-days__item  day">
+const tmp = (date, dayNum) => `<li class="trip-days__item  day">
   <div class="day__info">
-    <span class="day__counter">${dateNum}</span>
+    <span class="day__counter">${dayNum}</span>
     <time class="day__date" datetime="${formatDate(date)}">${formatDate3(date)}</time>
   </div>
 
@@ -14,11 +14,11 @@ const tmp = (date, dateNum) => `<li class="trip-days__item  day">
 
 
 export default class DayComp extends AbstractComponent {
-  constructor(date, dateNum) {
+  constructor(date, dayNum) {
     super();
 
-    this._date = date;
-    this._dateNum = dateNum;
+    this._date = date ? date : ``;
+    this._dateNum = dayNum ? dayNum : ``;
   }
 
   getTmp() {
