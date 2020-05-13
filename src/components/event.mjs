@@ -1,4 +1,4 @@
-import AbstractComponent from './abstract-component';
+import AbstractSmartComponent from './abstract-smart-component';
 import {capitalize, formatDate, formatTime} from '../utils/utils';
 import {POSTPOSITION as postposition} from '../const';
 
@@ -65,16 +65,15 @@ const tmp = (event) => `<li class="trip-events__item">
 </li>`;
 
 
-export default class EventComp extends AbstractComponent {
-  constructor(eventList, event) {
+export default class EventComp extends AbstractSmartComponent {
+  constructor(event) {
     super();
 
-    this._eventList = eventList;
     this._event = event;
   }
 
   getTmp() {
-    return tmp(this._eventList, this._event);
+    return tmp(this._event);
   }
 
   setClickHandler(cb) {

@@ -10,7 +10,7 @@ export const render = (container, comp, place = `beforeEnd`) => {
 };
 
 export const replace = (newComp, oldComp) => {
-  const parentElem = oldComp.getElem().parentElem;
+  const parentElem = oldComp.getElem().parentElement;
   const newElem = newComp.getElem();
   const oldElem = oldComp.getElem();
 
