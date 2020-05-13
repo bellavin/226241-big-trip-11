@@ -305,6 +305,7 @@ export default class EventEditComp extends AbstractSmartComponent {
       this.rerender();
     });
 
+
     // const offers = elem.querySelector(`.event__available-offers`);
     // if (offers) {
     //   offers.addEventListener(`click`, (evt) => {
