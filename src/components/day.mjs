@@ -1,6 +1,6 @@
 import AbstractComponent from './abstract-component';
 import {formatDate, formatDate3} from '../utils/utils';
-
+import moment from 'moment';
 
 const tmp = (date, dayNum) => `<li class="trip-days__item  day">
   <div class="day__info">

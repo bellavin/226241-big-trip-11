@@ -13,7 +13,7 @@ const tmp = () => `<form class="trip-events__trip-sort  trip-sort" action="#" me
       class="trip-sort__input  visually-hidden"
       type="radio"
       name="trip-sort"
-      value="sort-event"
+      value="sort-${item}"
       ${index === 0 ? `checked` : ``}
     >
     <label
@@ -51,7 +51,7 @@ export default class TripSortComp extends AbstractComponent {
         return;
       }
 
-      const sortType = evt.target.id;
+      const sortType = evt.target.value;
 
       if (this._currenSortType === sortType) {
         return;

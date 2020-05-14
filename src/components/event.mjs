@@ -1,10 +1,11 @@
 import AbstractSmartComponent from './abstract-smart-component';
-import {capitalize, formatDate, formatTime} from '../utils/utils';
+import {capitalize} from '../utils/utils';
 import {POSTPOSITION as postposition} from '../const';
+import moment from 'moment';
 
 
-const eventDuration = (event) => {
-  const milliseconds = new Date(event.dateTo) - new Date(event.dateFrom);
+const eventDuration = (start, end) => {
+  const milliseconds = new Date(end) - new Date(start);
 
   let dd = Math.floor(new Date(milliseconds).getUTCHours() / 24);
   let hh = new Date(milliseconds).getUTCHours();
@@ -17,31 +18,41 @@ const eventDuration = (event) => {
   return dd + hh + mm;
 };
 
-const tmp = (event) => `<li class="trip-events__item">
+
+const tmp = (event) => {
+  const title = capitalize(event.type) + ` ` + postposition[event.type] + ` ` + event.destination.name;
+  const dateFrom = moment(event.dateFrom).format(`DD-MM-YY`);
+  const timeFrom = moment(event.dateFrom).format(`HH:mm`);
+  const dateTo = moment(event.dateTo).format(`DD-MM-YY`);
+  const timeTo = moment(event.dateTo).format(`HH:mm`);
+  const duration = eventDuration(event.dateFrom, event.dateTo);
+
+
+  return `<li class="trip-events__item">
   <div class="event">
     <div class="event__type">
       <img class="event__type-icon" width="42" height="42" src="img/icons/${event.type}.png" alt="Event type icon">
     </div>
-    <h3 class="event__title">${capitalize(event.type)} ${postposition[event.type]} ${event.destination.name}</h3>
+    <h3 class="event__title">${title}</h3>
 
     <div class="event__schedule">
       <p class="event__time">
         <time
           class="event__start-time"
-          datetime="${formatDate(event.dateFrom)}T${formatTime(event.dateFrom)}"
+          datetime="${dateFrom}T${timeFrom}"
         >
-          ${formatTime(event.dateFrom)}
+          ${timeFrom}
         </time>
         &mdash;
         <time
           class="event__end-time"
-          datetime="${formatDate(event.dateTo)}T${formatTime(event.dateTo)}"
+          datetime="${dateTo}T${timeTo}"
         >
-        ${formatTime(event.dateTo)}
+        ${timeTo}
         </time>
       </p>
       <p class="event__duration">
-        ${eventDuration(event)}
+        ${duration}
       </p>
     </div>
 
@@ -63,6 +74,7 @@ const tmp = (event) => `<li class="trip-events__item">
     </button>
   </div>
 </li>`;
+};
 
 
 export default class EventComp extends AbstractSmartComponent {

@@ -1,6 +1,9 @@
 import AbstractSmartComponent from './abstract-smart-component';
+import moment from 'moment';
+import flatpickr from 'flatpickr';
+import 'flatpickr/dist/flatpickr.min.css';
 
-import {capitalize, formatDate2, formatTime} from '../utils/utils';
+import {capitalize} from '../utils/utils';
 import {
   POSTPOSITION as postposition,
   EVENT_TYPE_LIST as eventList,
@@ -38,10 +41,10 @@ const offersTmp = (event, eventType, activeOffers) => {
   }
 
   return `<section class="event__section  event__section--offers">
-    <h3 class="event__section-title  event__section-title--offers">Offers</h3>
+  <h3 class="event__section-title  event__section-title--offers">Offers</h3>
 
-    <div class="event__available-offers">
-      ${offers.map((item) => {
+  <div class="event__available-offers">
+    ${offers.map((item) => {
     const checkboxName = item.name.split(` `).join(`-`).toLowerCase();
 
     return `<div class="event__offer-selector">
@@ -60,8 +63,8 @@ const offersTmp = (event, eventType, activeOffers) => {
           </label>
         </div>`;
   }).join(`\n`)}
-    </div>
-  </section>`;
+  </div>
+</section>`;
 };
 
 
@@ -82,6 +85,8 @@ const detailsTmp = (event, type, activeOffers, destinationList) => {
 
 const headerTmp = (event, type, options = {}) => {
   const {isFavorite, dateFrom, dateTo, price, name} = options;
+  const startTime = moment(dateFrom).format(`DD/MM/YY HH:mm`);
+  const endTime = moment(dateTo).format(`DD/MM/YY HH:mm`);
 
   return `<header class="event__header">
     <div class="event__type-wrapper">
@@ -137,12 +142,12 @@ const headerTmp = (event, type, options = {}) => {
       <label class="visually-hidden" for="event-start-time-${event.id}">
         From
       </label>
-      <input class="event__input  event__input--time" id="event-start-time-${event.id}" type="text" name="event-start-time" value="${formatDate2(dateFrom)} ${formatTime(dateFrom)}">
+      <input class="event__input  event__input--time" id="event-start-time-${event.id}" type="text" name="event-start-time" value="${startTime}">
       &mdash;
       <label class="visually-hidden" for="event-end-time-${event.id}">
         To
       </label>
-      <input class="event__input  event__input--time" id="event-end-time-${event.id}" type="text" name="event-end-time" value="${formatDate2(dateTo)} ${formatTime(dateTo)}">
+      <input class="event__input  event__input--time" id="event-end-time-${event.id}" type="text" name="event-end-time" value="${endTime}">
     </div>
 
     <div class="event__field-group  event__field-group--price">
@@ -201,8 +206,10 @@ export default class EventEditComp extends AbstractSmartComponent {
     this._eventDestinationDesc = event.destination.description;
     this._eventDestinationPics = event.destination.pictures;
 
+    this._flatpickr = null;
     this._submitHandler = null;
 
+    this._applyFlatpickr();
     this._subscribeOnEvents();
   }
 
@@ -233,6 +240,8 @@ export default class EventEditComp extends AbstractSmartComponent {
 
   rerender() {
     super.rerender();
+
+    this._applyFlatpickr();
   }
 
   reset() {
@@ -254,6 +263,35 @@ export default class EventEditComp extends AbstractSmartComponent {
     this.rerender();
   }
 
+
+  _applyFlatpickr() {
+    if (this._flatpickrStart) {
+      this._flatpickrStart.destroy();
+      this._flatpickrStart = null;
+    }
+
+    if (this._flatpickrEnd) {
+      this._flatpickrEnd.destroy();
+      this._flatpickrEnd = null;
+    }
+
+    const dateFromElem = this.getElem().querySelector(`#event-start-time-${this._event.id}`);
+    const dateToElem = this.getElem().querySelector(`#event-end-time-${this._event.id}`);
+
+    this._flatpickrStart = flatpickr(dateFromElem, {
+      enableTime: true,
+      dateFormat: `d/m/y H:i`,
+      defaultDate: this._eventDateFrom || `today`,
+    });
+
+    this._flatpickrEnd = flatpickr(dateToElem, {
+      enableTime: true,
+      dateFormat: `d/m/y H:i`,
+      defaultDate: this._eventDateTo || `today`,
+    });
+  }
+
+
   setRollupClickHandler(handler) {
     this.getElem().querySelector(`.event__rollup-btn`).addEventListener(`click`, handler);
     this._rollupClickHandler = handler;
@@ -270,7 +308,6 @@ export default class EventEditComp extends AbstractSmartComponent {
 
   _subscribeOnEvents() {
     const elem = this.getElem();
-
 
     elem.querySelectorAll(`.event__type-label`).forEach((element) => {
       element.addEventListener(`click`, () => {
